@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebApplication8.Models.Libro>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1> Hello tareas World!</h1>
+<div>
+    <h4>¿Queres agregar un nuevo libro?</h4>
+    <a asp-action="guardar" asp-controller="Libros" class="btn btn-primary">Crear</a>
+</div>
+
+<div class="card-body">
+                <!--Formularios para eliminar datos-->
+    @if (Model.Count() > 0)
+    {
+        <!--Muestra en una tabla los nombres de las columnas-->
+        <table class="table table-striped border">
+            <tr class="table-secondary">
+                <th>@Html.DisplayNameFor(m => m.LibroId)</th>
+                <th>@Html.DisplayNameFor(m => m.LibroName)</th>
+                <th>@Html.DisplayNameFor(m => m.FechaAgregado)</th>
+
+                <th>Acciones</th>
+            </tr>
+        <!--Muestra en la misma tabla los resgistros de las columnas-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                <td>@item.LibroId</td>
+                <td>@item.LibroName</td>
+                <td>@item.FechaAgregado</td>
+
+                <td>
+                            <!--Acciones de edicion y eliminado-->
+
+                    <a asp-route-id="@item.LibroId" 
+                    asp-action="editar"
+                    asp-controller="Libros"
+                    class="btn btn-secondary">Editar</a>
+
+                    <button 
+                    asp-action="Eliminar" 
+                    asp-controller="Libros"
+                    asp-route-id="@item.LibroId" 
+                    class="btn btn-danger">Eliminar</button>
+
+                </td>
+                </tr>
+            }
+        </table>
+        <!--Respuesta por defecto-->
+    } else {<p> No hay Libros aun!</p>}
+</div>
+

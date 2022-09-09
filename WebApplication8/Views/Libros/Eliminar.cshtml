@@ -1,0 +1,32 @@
+﻿@model WebApplication8.Models.Libro
+@{
+    ViewData["Title"] = "Eliminar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-body">
+            <!--Formularios de recepcion de datos-->
+    <form method="post" asp-action="Eliminar" asp-controller="Libros">
+        <!--Campo secreto-->
+        <input type="hidden" asp-for="LibroId" />
+        <!--Validacion-->
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <!--Campos-->
+
+        <div class="container" style="padding:30px">
+            <div class="form-group">
+                <label asp-for="LibroName" class="form-label">Titulo</label>
+                <input asp-for="LibroName" class="form-control" type="text" />
+                <span asp-validation-for="LibroName" class="text-danger" />
+            </div>
+        </div>
+                        <!--Botones para enviar los datos y volver al listado-->
+
+        <div class="container" style="padding:30px">
+            <div class="form-group">
+                <input type="submit" value="eliminar" class="btn btn-danger form-control" />
+            </div>
+        </div> 
+    </form>
+</div>
+
