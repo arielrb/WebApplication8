@@ -1,13 +1,17 @@
 ﻿@model IEnumerable<WebApplication8.Models.Libro>
+@using Microsoft.AspNetCore.Identity;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1> Hello tareas World!</h1>
+@if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+{
 <div>
     <h4>¿Queres agregar un nuevo libro?</h4>
     <a asp-action="guardar" asp-controller="Libros" class="btn btn-primary">Crear</a>
 </div>
+}
 
 <div class="card-body">
                 <!--Formularios para eliminar datos-->
@@ -32,18 +36,20 @@
 
                 <td>
                             <!--Acciones de edicion y eliminado-->
-
+                @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+{
                     <a asp-route-id="@item.LibroId" 
                     asp-action="editar"
                     asp-controller="Libros"
                     class="btn btn-secondary">Editar</a>
-
-                    <button 
-                    asp-action="Eliminar" 
+}
+                @if (User.IsInRole("SuperAdmin"))
+{
+                    <a asp-route-id="@item.LibroId" 
+                    asp-action="eliminar"
                     asp-controller="Libros"
-                    asp-route-id="@item.LibroId" 
-                    class="btn btn-danger">Eliminar</button>
-
+                    class="btn btn-secondary">Eliminar</a>
+}
                 </td>
                 </tr>
             }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebApplication8.Context;
 using WebApplication8.Models;
 
@@ -13,13 +14,14 @@ namespace WebApplication8.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles ="Admin,SuperAdmin,User")]
         public IActionResult Index()
         {
             IEnumerable<Libro> ListaLibros = _context.Libros;
             return View(ListaLibros);
         }
         //Metodo Get
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Guardar()
         {
             return View();
@@ -38,6 +40,7 @@ namespace WebApplication8.Controllers
             }
             return View();
         }
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Editar(int? id)
         {
             if(id == 0 || id == null)
@@ -61,6 +64,7 @@ namespace WebApplication8.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 libro.FechaAgregado = DateTime.Now;
                 var libros = _context.Libros;
                 libros.Update(libro);
@@ -69,6 +73,8 @@ namespace WebApplication8.Controllers
             }
             return View();
         }
+        [Authorize(Roles = "SuperAdmin")]
+        [AllowAnonymous]
         public IActionResult Eliminar(int? id)
         {
             if (id == 0 || id == null)
@@ -88,7 +94,7 @@ namespace WebApplication8.Controllers
 
         }
 
-        [HttpDelete]
+        [HttpPost]
         public IActionResult Eliminar(Libro libro)
         {
             if (ModelState.IsValid)
